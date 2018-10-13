@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Google Maps Demo</title>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Google maps demo</h2>
+    <div id="map"></div>
+    <script>
+        var markers = [{
+                coords: {
+                    lat: 30.3953,
+                    lng: 31.5142
+                },
+                iconImage: image,
+                content: '<h1>Belbeis</h1>'
+            },
+            {
+                coords: {
+                    lat: 30.5765,
+                    lng: 31.5041
+                }
+            }
+        ];
+
+        // Map options
+        var options = {
+            center: {
+                lat: 30.3953,
+                lng: 31.5142
+            },
+            zoom: 8
+        };
+
+        // New map
+        var map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), options);
+        }
+        // Add marker
+        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+        function addMarker(props) {
+            var marker = new google.maps.Marker({
+                position: props.coords,
+                map: map,
+                // icon: props.iconImage
+            });
+
+            if (props.iconImage) {
+                marker.setIcon(props.iconImage);
+            }
+
+            if (props.content) {
+                // Add info window
+                var infoWindow = new google.maps.InfoWindow({
+                    content: props.content
+                });
+
+                // Add event listener to show infoWindow
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+            }
+        }
+
+        // Create markers
+        for (var i = 0; i < markers.length; i++) {
+            addMarker(markers[i]);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCT--Yg1uOkI9pm7C0KddyH7Uwhi9VRFYY&callback=initMap" async defer></script>
+</body>
+
+</html>
